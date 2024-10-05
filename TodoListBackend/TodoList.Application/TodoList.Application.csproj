@@ -154,14 +154,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TodoItem\TodoItemDto.cs" />
     <Compile Include="TodoItem\TodoItemMapper.cs" />
+    <Compile Include="TodoItem\TodoItemValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TodoItem\Service\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\TodoList.Core\TodoList.Core.csproj">
       <Project>{47bc3fca-29bb-44db-95db-663272390fe0}</Project>

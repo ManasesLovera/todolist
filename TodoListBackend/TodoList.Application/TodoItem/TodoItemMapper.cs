@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TodoList.Core.Enums;
 
 namespace TodoList.Application.TodoItem
 {
@@ -10,11 +11,17 @@ namespace TodoList.Application.TodoItem
     {
         public static Core.Entities.TodoItem ToModel(this TodoItemDto todoItemDto)
         {
+            Priority myPriority = Priority.Low;
+            if (new List<string>() { "High", "Medium", "Low" }.Contains(todoItemDto.Priority))
+            {
+                myPriority = (Priority) Enum.Parse(typeof(Priority), todoItemDto.Priority);
+            }
+
             return new Core.Entities.TodoItem
             {
                 Title = todoItemDto.Title,
                 Description = todoItemDto.Description,
-                Priority = todoItemDto.Priority,
+                Priority = myPriority,
                 IsCompleted = todoItemDto.IsCompleted,
             };
         }
@@ -24,7 +31,7 @@ namespace TodoList.Application.TodoItem
             {
                 Title = todoItem.Title,
                 Description = todoItem.Description,
-                Priority = todoItem.Priority,
+                Priority = todoItem.Priority.ToString(),
                 IsCompleted = todoItem.IsCompleted
             };
         }

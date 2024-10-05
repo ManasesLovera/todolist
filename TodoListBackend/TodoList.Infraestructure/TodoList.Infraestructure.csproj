@@ -152,7 +152,12 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Data\ApplicationDbContext.cs" />
-    <Compile Include="Data\DependencyResolver.cs" />
+    <Compile Include="Data\ApplicationDbContextFactory.cs" />
+    <Compile Include="Migrations\20241005192521_InitialCreate.cs" />
+    <Compile Include="Migrations\20241005192521_InitialCreate.Designer.cs">
+      <DependentUpon>20241005192521_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\ApplicationDbContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ITodoRepository.cs" />
     <Compile Include="Repositories\TodoRepository.cs" />

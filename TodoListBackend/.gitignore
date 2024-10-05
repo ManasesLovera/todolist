@@ -2,18 +2,20 @@
 packages/
 
 TodoList.Application/.vs/
-TodoList.Application/.vs/bin/
-TodoList.Application/.vs/obj/
+TodoList.Application/bin/
+TodoList.Application/obj/
 
-TodoList.Core/.vs/bin/
-TodoList.Core/.vs/obj/
+TodoList.Core/bin/
+TodoList.Core/obj/
 
-TodoList.Infraestructure/.vs/bin/
-TodoList.Infraestructure/.vs/obj/
+TodoList.Infraestructure/bin/
+TodoList.Infraestructure/obj/
+
+TodoList.Infraestructure/Migrations/
 
 TodoList.Tests/.vs/bin/
 TodoList.Tests/.vs/obj/
 
 TodoList.WebAPI/.vs/
-TodoList.WebAPI/.vs/bin/
-TodoList.WebAPI/.vs/obj/
+TodoList.WebAPI/bin/
+TodoList.WebAPI/obj/

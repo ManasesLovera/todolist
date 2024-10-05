@@ -44,18 +44,22 @@ namespace TodoList.WebAPI.Controllers
         // POST api/todolist
         [HttpPost]
         [Route("")]
-        public async Task<IHttpActionResult> Post([FromBody] TodoItemDto itemDto)
+        public async Task<HttpResponseMessage> Post([FromBody] TodoItemDto itemDto)
         {
+            var validationResult = itemDto.Validate();
+
+            if (!validationResult.IsValid)
+                return Request.CreateResponse(HttpStatusCode.BadRequest, validationResult.Errors);
+
             var todoItem = await _todoRepo.GetByTitleAsync(itemDto.Title);
 
             if (todoItem != null)
-                return Conflict();
+                return Request.CreateResponse(HttpStatusCode.Conflict, new { Message = "There is an TodoItem with this title already." });
 
             await _todoRepo.AddAsync(itemDto.ToModel());
-
             var newTodoItem = await _todoRepo.GetByTitleAsync(itemDto.Title);
 
-            return Created($"api/todolist/{newTodoItem.Id}", newTodoItem);
+            return Request.CreateResponse(HttpStatusCode.Created, "TodoItem created successfully");
         }
 
         // PUT api/todolist/{id}
@@ -76,6 +80,8 @@ namespace TodoList.WebAPI.Controllers
         }
 
         // DELETE api/todolist/{id}
+        [HttpDelete]
+        [Route("{id}")]
         public async Task<IHttpActionResult> Delete(int id)
         {
             var todoItem = await _todoRepo.GetByIdAsync(id);
