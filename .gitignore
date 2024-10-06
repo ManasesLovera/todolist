@@ -13,9 +13,15 @@ TodoListBackend/TodoList.Infraestructure/obj/
 
 TodoListBackend/TodoList.Infraestructure/Migrations/
 
-TodoListBackend/TodoList.Tests/.vs/bin/
-TodoListBackend/TodoList.Tests/.vs/obj/
+TodoListBackend/TodoList.Tests/bin/
+TodoListBackend/TodoList.Tests/obj/
 
 TodoListBackend/TodoList.WebAPI/.vs/
 TodoListBackend/TodoList.WebAPI/bin/
 TodoListBackend/TodoList.WebAPI/obj/
+
+
+
+node_modules/
+TodoListFrontend/.vscode
+TodoListFrontend/node_modules
