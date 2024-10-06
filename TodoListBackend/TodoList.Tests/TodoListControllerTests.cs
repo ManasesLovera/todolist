@@ -31,15 +31,15 @@ namespace TodoList.Tests
             _mockRepo = new Mock<ITodoRepository>();
             _controller = new TodoListController(_mockRepo.Object);
 
-            var httpRequestMessage = new HttpRequestMessage();
-            var httpConfiguration = new HttpConfiguration();
-            var controllerContext = new HttpControllerContext
-            {
-                Request = httpRequestMessage,
-                Configuration = httpConfiguration
-            };
+            //var httpRequestMessage = new HttpRequestMessage();
+            //var httpConfiguration = new HttpConfiguration();
+            //var controllerContext = new HttpControllerContext
+            //{
+            //    Request = httpRequestMessage,
+            //    Configuration = httpConfiguration
+            //};
 
-            _controller.ControllerContext = controllerContext;
+            //_controller.ControllerContext = controllerContext;
         }
         // GET api/todolist
         [Test]
@@ -84,18 +84,25 @@ namespace TodoList.Tests
         [Test]
         public async Task Post_CreatesTodoItem_WhenValid()
         {
-            var itemDto = new TodoItemRequestDto { Title = "titulo", Description = "description", Priority = "High", IsCompleted = false };
-            _mockRepo.Setup(repo => repo.GetByTitleAsync(itemDto.Title)).ReturnsAsync((TodoItem)null);
-            _mockRepo.Setup(repo => repo.AddAsync(It.IsAny<TodoItem>())).Returns(Task.CompletedTask);
-            _mockRepo.Setup(repo => repo.GetByTitleAsync(itemDto.Title)).ReturnsAsync(new TodoItem { 
-                Id = 1, 
-                Title = "titulo", 
-                Description = "description", 
-                Priority = Priority.High, 
-                IsCompleted = false 
-            });
+            var todoItem = new TodoItem { Id = 1, Title = "titulo", Description = "description", Priority = Priority.High, IsCompleted = false };
+            
+            _mockRepo.SetupSequence(repo => repo.GetByTitleAsync(todoItem.Title))
+                .ReturnsAsync((TodoItem)null)
+                .ReturnsAsync(todoItem);
 
-            var response = await _controller.Post(itemDto);
+            _mockRepo.Setup(repo => repo.AddAsync(It.IsAny<TodoItem>())).Returns(Task.CompletedTask);
+            //_mockRepo.Setup(repo => repo.GetByTitleAsync(itemDto.Title)).ReturnsAsync(new TodoItem { 
+            //    Id = 1, 
+            //    Title = "titulo", 
+            //    Description = "description",
+            //    Priority = Priority.High, 
+            //    IsCompleted = false 
+            //});
+
+            _controller.Request = new HttpRequestMessage();
+            _controller.Request.SetConfiguration(new HttpConfiguration());
+
+            var response = await _controller.Post(todoItem.ToRequestDto());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Created));
         }
@@ -105,6 +112,9 @@ namespace TodoList.Tests
             var itemDto = new TodoItemRequestDto { Title = "", Description = "description", Priority = "High", IsCompleted = false };
             var validationResult = itemDto.Validate();
 
+            _controller.Request = new HttpRequestMessage();
+            _controller.Request.SetConfiguration(new HttpConfiguration());
+
             var response = await _controller.Post(itemDto);
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
@@ -113,10 +123,13 @@ namespace TodoList.Tests
         [Test]
         public async Task Post_ReturnsConflict_WhenTitleAlreadyExists()
         {
-            var itemDto = new TodoItemRequestDto { Title = "titulo", Description = "description", Priority = "High", IsCompleted = false };
-            _mockRepo.Setup(repo => repo.GetByTitleAsync(itemDto.Title)).ReturnsAsync(new TodoItem());
+            var todoItem = new TodoItem { Id = 1, Title = "titulo", Description = "description", Priority = Priority.High, IsCompleted = false };
+            _mockRepo.Setup(repo => repo.GetByTitleAsync(todoItem.Title)).ReturnsAsync(todoItem);
 
-            var response = await _controller.Post(itemDto);
+            _controller.Request = new HttpRequestMessage();
+            _controller.Request.SetConfiguration(new HttpConfiguration());
+
+            var response = await _controller.Post(todoItem.ToRequestDto());
 
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.Conflict));
         }
