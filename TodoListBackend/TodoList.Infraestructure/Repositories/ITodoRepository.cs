@@ -15,6 +15,6 @@ namespace TodoList.Infraestructure.Repositories
         Task AddAsync(TodoItem item);
         Task UpdateAsync(TodoItem item);
         Task DeleteAsync(int id);
-        Task ChangeCompleted(int id);
+        Task ChangeCompletedAsync(int id);
     }
 }

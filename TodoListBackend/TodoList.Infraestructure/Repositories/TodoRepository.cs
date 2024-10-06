@@ -27,7 +27,7 @@ namespace TodoList.Infraestructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task ChangeCompleted(int id)
+        public async Task ChangeCompletedAsync(int id)
         {
             var todoItem = await _context.TodoItems.FindAsync(id);
 

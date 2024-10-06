@@ -7,6 +7,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using System.Web.Http;
 using TodoList.Application.TodoItem;
+using TodoList.Application.TodoItem.DTOs;
 using TodoList.Core.Entities;
 using TodoList.Infraestructure.Repositories;
 
@@ -23,9 +24,11 @@ namespace TodoList.WebAPI.Controllers
         // GET api/todolist
         [HttpGet]
         [Route("")]
-        public async Task<IEnumerable<TodoItem>> GetAll()
+        public async Task<IEnumerable<TodoItemResponseDto>> GetAll()
         {
-            return await _todoRepo.GetAllAsync();
+            var todoItems = await _todoRepo.GetAllAsync();
+            List<TodoItemResponseDto> todoItemsResponse = todoItems.Select(i => i.ToResponseDto()).ToList();
+            return todoItemsResponse;
         }
 
         // GET api/todolist/{id}
@@ -38,14 +41,17 @@ namespace TodoList.WebAPI.Controllers
             if (item == null)
                 return NotFound();
             
-            return Ok(item);
+            return Ok(item.ToResponseDto());
         }
 
         // POST api/todolist
         [HttpPost]
         [Route("")]
-        public async Task<HttpResponseMessage> Post([FromBody] TodoItemDto itemDto)
+        public async Task<HttpResponseMessage> Post([FromBody] TodoItemRequestDto itemDto)
         {
+            if (itemDto == null)
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid request body");
+
             var validationResult = itemDto.Validate();
 
             if (!validationResult.IsValid)
@@ -59,13 +65,12 @@ namespace TodoList.WebAPI.Controllers
             await _todoRepo.AddAsync(itemDto.ToModel());
             var newTodoItem = await _todoRepo.GetByTitleAsync(itemDto.Title);
 
-            return Request.CreateResponse(HttpStatusCode.Created, "TodoItem created successfully");
+            return Request.CreateResponse(HttpStatusCode.Created, newTodoItem);
         }
-
         // PUT api/todolist/{id}
         [HttpPut]
         [Route("{id}")]
-        public async Task<IHttpActionResult> Put(int id, [FromBody] TodoItemDto itemDto)
+        public async Task<IHttpActionResult> Put(int id, [FromBody] TodoItemRequestDto itemDto)
         {
             var todoItem = await _todoRepo.GetByIdAsync(id);
 
@@ -76,9 +81,8 @@ namespace TodoList.WebAPI.Controllers
             updatedItem.Id = id;
 
             await _todoRepo.UpdateAsync(updatedItem);
-            return Ok(updatedItem);
+            return Ok(updatedItem.ToResponseDto());
         }
-
         // DELETE api/todolist/{id}
         [HttpDelete]
         [Route("{id}")]
@@ -90,6 +94,19 @@ namespace TodoList.WebAPI.Controllers
 
             await _todoRepo.DeleteAsync(id);
             return StatusCode(HttpStatusCode.NoContent);
+        }
+        // PATCH api/todolist/{id}
+        [HttpPatch]
+        [Route("{id}")]
+        public async Task<IHttpActionResult> ChangeCompleted(int id)
+        {
+            var todoItem = await _todoRepo.GetByIdAsync(id);
+
+            if (todoItem == null)
+                return NotFound();
+
+            await _todoRepo.ChangeCompletedAsync(id);
+            return Ok(todoItem.ToResponseDto());
         }
     }
 }

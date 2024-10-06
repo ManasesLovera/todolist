@@ -9,7 +9,7 @@ namespace TodoList.Application.TodoItem
 {
     public static class TodoItemValidator
     {
-        public static ValidateResponse Validate(this TodoItemDto todoItemDto)
+        public static ValidateResponse Validate(this TodoItemRequestDto todoItemDto)
         {
             List<string> errors = new List<string>();
 

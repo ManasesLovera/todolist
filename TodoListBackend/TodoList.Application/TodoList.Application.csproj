@@ -152,7 +152,8 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TodoItem\TodoItemDto.cs" />
+    <Compile Include="TodoItem\DTOs\TodoItemResponseDto.cs" />
+    <Compile Include="TodoItem\DTOs\TodoItemRequestDto.cs" />
     <Compile Include="TodoItem\TodoItemMapper.cs" />
     <Compile Include="TodoItem\TodoItemValidator.cs" />
   </ItemGroup>
