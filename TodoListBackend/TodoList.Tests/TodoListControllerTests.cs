@@ -91,13 +91,6 @@ namespace TodoList.Tests
                 .ReturnsAsync(todoItem);
 
             _mockRepo.Setup(repo => repo.AddAsync(It.IsAny<TodoItem>())).Returns(Task.CompletedTask);
-            //_mockRepo.Setup(repo => repo.GetByTitleAsync(itemDto.Title)).ReturnsAsync(new TodoItem { 
-            //    Id = 1, 
-            //    Title = "titulo", 
-            //    Description = "description",
-            //    Priority = Priority.High, 
-            //    IsCompleted = false 
-            //});
 
             _controller.Request = new HttpRequestMessage();
             _controller.Request.SetConfiguration(new HttpConfiguration());
