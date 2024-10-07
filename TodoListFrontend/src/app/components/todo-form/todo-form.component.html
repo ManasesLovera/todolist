@@ -1,0 +1,23 @@
+<div class="container">
+    <h2>Add New Todo</h2>
+    <form (submit)="createTodo()">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" class="form-control" [(ngModel)]="todo.title" name="title" required>
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" [(ngModel)]="todo.description" name="description" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="priority">Priority</label>
+        <select class="form-control" [(ngModel)]="todo.priority" name="priority">
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-success">Add Todo</button>
+    </form>
+  </div>
+  

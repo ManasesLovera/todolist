@@ -1,0 +1,29 @@
+<div class="container">
+    <h1 class="my-4">Todo List</h1>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Priority</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let todo of todos">
+          <td>{{ todo.Title }}</td>
+          <td>{{ todo.Description }}</td>
+          <td>{{ todo.Priority }}</td>
+          <td>{{ todo.IsCompleted ? 'Completed' : 'Pending' }}</td>
+          <td>
+            <button class="btn btn-primary" (click)="toggleCompletion(todo.Id)">
+              {{ todo.IsCompleted ? 'Mark as Pending' : 'Mark as Completed' }}
+            </button>
+            <button style="margin-left: 4px;" class="btn btn-danger ml-6" (click)="deleteTodo(todo.Id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+  

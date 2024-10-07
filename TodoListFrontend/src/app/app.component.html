@@ -1,5 +1,5 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
+<!-- <div style="text-align:center">
   <h1>
     Welcome to {{ title }}!
   </h1>
@@ -18,4 +18,9 @@
   </li>
 </ul>
 
-<router-outlet></router-outlet>
+<router-outlet></router-outlet> -->
+
+<div class="container">
+  <app-todo-list #todoList></app-todo-list>
+  <app-todo-form (onTodoAdded)="todoList.fetchTodos()"></app-todo-form>
+</div>
