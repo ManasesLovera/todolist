@@ -13,7 +13,7 @@ using TodoList.Infraestructure.Repositories;
 
 namespace TodoList.WebAPI.Controllers
 {
-    [RoutePrefix("api/todolist")]
+    [RoutePrefix("tasks")]
     public class TodoListController : ApiController
     {
         private readonly ITodoRepository _todoRepo;
@@ -21,7 +21,7 @@ namespace TodoList.WebAPI.Controllers
         {
             _todoRepo = todoRepository;
         }
-        // GET api/todolist
+        // GET tasks
         [HttpGet]
         [Route("")]
         public async Task<IEnumerable<TodoItemResponseDto>> GetAll()
@@ -31,7 +31,7 @@ namespace TodoList.WebAPI.Controllers
             return todoItemsResponse;
         }
 
-        // GET api/todolist/{id}
+        // GET tasks/{id}
         [HttpGet]
         [Route("{id:int}")]
         public async Task<IHttpActionResult> Get(int id)
@@ -44,7 +44,7 @@ namespace TodoList.WebAPI.Controllers
             return Ok(item.ToResponseDto());
         }
 
-        // POST api/todolist
+        // POST tasks
         [HttpPost]
         [Route("")]
         public async Task<HttpResponseMessage> Post([FromBody] TodoItemRequestDto itemDto)
@@ -67,7 +67,7 @@ namespace TodoList.WebAPI.Controllers
 
             return Request.CreateResponse(HttpStatusCode.Created, newTodoItem);
         }
-        // PUT api/todolist/{id}
+        // PUT tasks/{id}
         [HttpPut]
         [Route("{id}")]
         public async Task<IHttpActionResult> Put(int id, [FromBody] TodoItemRequestDto itemDto)
@@ -83,7 +83,7 @@ namespace TodoList.WebAPI.Controllers
             await _todoRepo.UpdateAsync(updatedItem);
             return Ok(updatedItem.ToResponseDto());
         }
-        // DELETE api/todolist/{id}
+        // DELETE tasks/{id}
         [HttpDelete]
         [Route("{id}")]
         public async Task<IHttpActionResult> Delete(int id)
@@ -95,7 +95,7 @@ namespace TodoList.WebAPI.Controllers
             await _todoRepo.DeleteAsync(id);
             return StatusCode(HttpStatusCode.NoContent);
         }
-        // PATCH api/todolist/{id}
+        // PATCH tasks/{id}
         [HttpPatch]
         [Route("{id}")]
         public async Task<IHttpActionResult> ChangeCompleted(int id)
