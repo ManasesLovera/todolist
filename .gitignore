@@ -23,5 +23,6 @@ TodoListBackend/TodoList.WebAPI/obj/
 
 
 node_modules/
+package-lock.json
 TodoListFrontend/.vscode
 TodoListFrontend/node_modules
